@@ -131,9 +131,9 @@ class ServerSet(object):
         try:
             try:
                 self._servers.remove(server)
+                self._dead.insert(0, (time.time() + self._retry_time, server))
             except ValueError:
                 pass
-            self._dead.insert(0, (time.time() + self._retry_time, server))
         finally:
             self._lock.release()
 
