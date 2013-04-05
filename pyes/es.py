@@ -1189,7 +1189,7 @@ class ES(object):
         #return data["_source"]['_name'], base64.standard_b64decode(data["_source"]['content'])
 
     def update(self, extra_doc, index, doc_type, id, querystring_args=None,
-               update_func=None, attempts=2):
+               update_func=None, attempts=2, bulk=False):
         """
         Update an already indexed typed JSON document.
 
@@ -1217,7 +1217,7 @@ class ES(object):
                 new_doc = current_doc
             try:
                 return self.index(new_doc, index, doc_type, id,
-                                  version=current_doc._meta.version, querystring_args=querystring_args)
+                                  version=current_doc._meta.version, querystring_args=querystring_args, bulk=bulk)
             except VersionConflictEngineException:
                 if attempt <= 0:
                     raise
